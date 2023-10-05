@@ -10,6 +10,10 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 
 
+# Added libssl installation as apt-get was failing to automaticallly install
+RUN wget http://security.debian.org/debian-security/pool/updates/main/o/openssl/libssl1.1_1.1.1n-0+deb10u6_amd64.deb
+RUN dpkg -i libssl1.1_1.1.1n-0+deb10u6_amd64.deb
+
 # Mongo
 RUN ln -s /bin/echo /bin/systemctl
 RUN wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add -
@@ -20,8 +24,10 @@ RUN apt-get install -y mongodb-org
 # Install Yarn
 RUN apt-get install -y yarn
 
-# Install PIP
-RUN easy_install pip
+# Disabled this as PIP is already installed and this is throwing error
+# Also, easy_install is depricated
+# packaging.python.org/en/latest/discussions/pip-vs-easy-install/
+# RUN easy_install pip
 
 
 ENV ENV_TYPE staging
