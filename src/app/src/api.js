@@ -1,46 +1,50 @@
-import axios from "axios";
-
-var dummyData = [
-	{
-		_id: "1",
-		text: "Task 1",
-	},
-	{
-		_id: "2",
-		text: "assignment 2",
-	},
-	{
-		_id: "3",
-		text: "Dummy text 3",
-	},
-];
+import axios from 'axios';
+const BASE_URL = "http://localhost:8000/"
+const todosUrl = `${BASE_URL}/todos/`
 
 export const fetchToDoList = async () => {
-	return dummyData;
+    try {
+        const res = await axios.get(todosUrl);
+        return res.data;
+    } catch (e) {
+        console.error('Error occured while fetching todo list:', e);
+        throw e;
+    }
 };
 
-var cnt = 3;
 export const addToDoItem = async (todoItem) => {
-	console.log("AddToDoItem" + todoItem);
-	cnt++;
-	const res = { _id: `${cnt}`, text: todoItem };
-	dummyData = [...dummyData, res];
-	return res;
+    try {
+		JSON.stringify(todoItem);
+        const res = await axios.post(todosUrl, { text: todoItem });
+        return res.data;
+    } catch (e) {
+        console.error('Error occured while adding new todo:', e);
+        throw e;
+    }
 };
-
 export const updateToDoItem = async (todoId, updatedToDoItem) => {
-	console.log("UpdateToDoItem" + updatedToDoItem);
-	const res = { _id: todoId, text: updatedToDoItem };
-	dummyData = dummyData.map((toDoItem) => {
-		return toDoItem._Id === todoId ? res : toDoItem;
-	});
-	return res;
+    try {
+        const res = await axios.put(todosUrl, {
+            _id: todoId,
+			text: updatedToDoItem,
+        });
+        return res.data;
+    } catch (e) {
+        console.error('Error occured while updating todo:', e);
+        throw e;
+    }
 };
 
 export const deleteToDo = async (todoId) => {
-	console.log(todoId);
-	dummyData = dummyData.filter((e) => {
-		return e._Id !== todoId;
-	});
-	return;
+    try {
+        const res = await axios.delete(todosUrl,{
+            data: {
+                _id: todoId
+            }
+        });
+        return res.data;
+    } catch (e) {
+        console.e('Error occured while deleting todo:', e);
+        throw e;
+    }
 };
