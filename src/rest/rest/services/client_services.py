@@ -6,11 +6,15 @@ class TodoListService:
         self.db = TodoDB()
 
     def get_todo_items(self):
-        todos = self.db.get_all_todo_items()
-        formatted_todos = [
-            {"_id": str(todo["_id"]), "text": todo["text"]} for todo in todos
-        ]
-        return formatted_todos
+        result = self.db.get_all_todo_items()
+        if result["status"] ==200:
+            todos = result["data"]
+            formatted_todos = [
+                {"_id": str(todo["_id"]), "text": todo["text"]} for todo in todos
+            ]
+            return formatted_todos
+        else:
+            return result
         
     def create_todo_item(self, data):
         result = self.db.insert_todo_item(data)

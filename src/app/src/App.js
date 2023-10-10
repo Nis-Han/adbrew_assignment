@@ -32,10 +32,10 @@ export function App() {
 		updateToDoItem(toDoId, updatedToDoItem)
 			.then((data) => {
 				setToDoList(() => {
-					const lol = toDoList.map((toDo) =>
+					const updatedToDoList = toDoList.map((toDo) =>
 						toDo._id === toDoId ? data : toDo
 					);
-					return lol;
+					return updatedToDoList;
 				});
 				setUpdatedToDoItem({ id: null, text: "" });
 			})

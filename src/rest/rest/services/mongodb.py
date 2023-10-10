@@ -11,8 +11,11 @@ class TodoDB:
         self.todo_collection = db.todo_list
 
     def get_all_todo_items(self):
-        todos = list(self.todo_collection.find())
-        return todos
+        try: 
+            todos = list(self.todo_collection.find())
+            return {"data": todos, "status": 200}
+        except Exception as e:
+            return {"data": {"error": "Problem connecting with the DB"}, "status": 500}
         
     def insert_todo_item(self, data):
         try:

@@ -20,7 +20,11 @@ class TodoListView(APIView):
             result = service.create_todo_item(data)
             return Response(result["data"], status=result["status"])
         else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            erros_message = {
+                "message": "Malformed request body",
+                "errors":  serializer.errors
+            }
+            return Response(data=erros_message, status=status.HTTP_400_BAD_REQUEST)
     
     def put(self, request):
         serializer = TodoItemSerializer(data=request.data)
@@ -29,7 +33,11 @@ class TodoListView(APIView):
             result = service.update_todo_item(serializer.validated_data)
             return Response(result["data"], status=result["status"])
         else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            erros_message = {
+                "message": "Malformed request body",
+                "errors":  serializer.errors
+            }
+            return Response(data=erros_message, status=status.HTTP_400_BAD_REQUEST)
     
     def delete(self, request):
         serializer = TodoItemSerializer(data=request.data)
@@ -38,4 +46,8 @@ class TodoListView(APIView):
             result = service.delete_todo_item(serializer.validated_data)
             return Response(result["data"], status=result["status"])
         else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            erros_message = {
+                "message": "Malformed request body",
+                "errors":  serializer.errors
+            }
+            return Response(data=erros_message, status=status.HTTP_400_BAD_REQUEST)
